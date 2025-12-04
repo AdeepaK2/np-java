@@ -1,34 +1,30 @@
 import java.net.ServerSocket; 
 import java.net.Socket;
-import java.nio.Buffer;
 import java.io.PrintWriter; 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Server {
-  public static void main(String[] args) throws IOException {
-    // Create a server socket listening on port 8080
-    ServerSocket serverSocket=new ServerSocket(8080);
+  public static void main(String[] args)  {
+    try{
+      ServerSocket serverSocket= new ServerSocket(5000);
+      System.out.println("Server is listening on port 5000");
 
-    // Wait for and accept a client connection (blocking call)
-    Socket clienSocket=serverSocket.accept();
-    System.out.println(
-      "Client connected: " + clienSocket.getInetAddress().getHostAddress()
-    );
+      Socket clientSocket=serverSocket.accept();
 
-    // Create BufferedReader to read data from client
-    // InputStreamReader converts byte stream to character stream
-    BufferedReader in = new BufferedReader(new InputStreamReader(clienSocket.getInputStream()));
-    System.out.println("Client says: " + in.readLine());
-    
-    // Create PrintWriter to send data to client (true enables auto-flushing)
-    PrintWriter out=new PrintWriter(clienSocket.getOutputStream(),true);
-    out.println("Weather is good");
-    
-    
-    clienSocket.close();
-    serverSocket.close();
+      BufferedReader in=new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+      String msg=in.readLine();
+      System.out.println("Received from client: " + msg);
+
+      PrintWriter out=new PrintWriter(clientSocket.getOutputStream(), true);
+      out.println("Hello from Server!");
+
+      clientSocket.close();
+      serverSocket.close();
+    }catch(IOException e){
+      e.printStackTrace();
+    }
   }
   
 }
