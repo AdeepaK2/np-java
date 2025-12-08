@@ -5,20 +5,21 @@ import java.io.IOException;
 
 public class Client {
   public static void main(String[] args) throws IOException {
-    DatagramSocket clientSocket=new DatagramSocket();
-    String message="Client says: Weather was bad";
-    byte[] data=message.getBytes();
-    DatagramPacket packet=new DatagramPacket(data,data.length,InetAddress.getByName("localhost"),8080);
-    clientSocket.send(packet);
+    DatagramSocket socket=new DatagramSocket();
+    String msg="Hello Server from Client";
+    socket.setSoTimeout(1000);
 
-    clientSocket.setSoTimeout(5000);
+    byte[] outBuffer=msg.getBytes();
+    DatagramPacket outPacket=new DatagramPacket(outBuffer, outBuffer.length,InetAddress.getByName("localhost") , 5000);
+    socket.send(outPacket);
 
-    byte[] recive=new byte[256];
-    DatagramPacket recievedPacket=new DatagramPacket(recive, recive.length);
-    clientSocket.receive(recievedPacket);
-    String response=new String(recievedPacket.getData(),0,recievedPacket.getLength());
-    System.out.println(response);
-    clientSocket.close();
+    byte[] inBuffer=new byte[256];
+    DatagramPacket inPacket=new DatagramPacket(inBuffer,inBuffer.length );
+    socket.receive(inPacket);
 
+    String rmsg=new String(inPacket.getData(),0,inPacket.getLength());
+    System.out.println(rmsg);
+    
+    socket.close();
   }
 }
