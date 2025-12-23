@@ -14,7 +14,7 @@ public class NioEchoServer {
            ========================================================= */
 
         // Create a ServerSocketChannel (used only by servers)
-        ServerSocketChannel serverChannel = ServerSocketChannel.open();
+        ServerSocketChannel serverChannel=ServerSocketChannel.open();
 
         // IMPORTANT: Set non-blocking mode (required for Selector)
         serverChannel.configureBlocking(false);
