@@ -6,7 +6,7 @@ import java.nio.channels.SocketChannel;
 public class NioClient {
   public static void main(String[] args) throws IOException {
     SocketChannel socket=SocketChannel.open();
-    socket.configureBlocking(false);
+    socket.configureBlocking( false);
     InetSocketAddress addr=new InetSocketAddress("localhost",5000);
     socket.connect(addr);
 
